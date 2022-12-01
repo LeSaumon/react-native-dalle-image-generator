@@ -1,11 +1,18 @@
-import React, {SetStateAction, useState} from 'react';
-import {SafeAreaView, Image} from 'react-native';
-import {checkMultiple, PERMISSIONS, RESULTS} from 'react-native-permissions';
-import {request, requestMultiple, Permission} from 'react-native-permissions';
+import React, {useState} from 'react';
+import {SafeAreaView, Image, ActivityIndicator} from 'react-native';
+import {
+  checkMultiple,
+  PERMISSIONS,
+  RESULTS,
+  request,
+  requestMultiple,
+  Permission,
+} from 'react-native-permissions';
+
 import {OPENAI_API_KEY} from '@env';
+
 import LayoutSheet from './src/styles/Layout';
 import {ImageSheet} from './src/styles/Image';
-import {AxiosResponse} from 'axios';
 
 import TextPrompt from './src/components/TextPrompt';
 import ButtonGenerate from './src/components/Buttons/Generate';
@@ -13,6 +20,7 @@ import ButtonGenerate from './src/components/Buttons/Generate';
 const App = () => {
   const [textData, setTextData] = useState('');
   const [generatedImage, setGeneratedImage] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
 
   const processPermissions = async () => {
     const status = await checkMultiple([
@@ -37,6 +45,7 @@ const App = () => {
     } else {
       console.log('coucou');
       fetchData();
+      setIsGenerating(true);
     }
   };
 
@@ -55,15 +64,19 @@ const App = () => {
     })
       .then(result => result.json())
       .then(data => {
-        console.log(data);
-        console.log(data.data[0].url);
         setGeneratedImage(data.data[0].url);
+        setIsGenerating(false);
       });
   };
 
   return (
     <SafeAreaView style={LayoutSheet.flexContainer}>
       <TextPrompt value={textData} onChangeText={setTextData} />
+      {isGenerating ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+        <></>
+      )}
       {generatedImage ? (
         <Image
           style={ImageSheet.generatedImage}
