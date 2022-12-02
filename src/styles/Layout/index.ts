@@ -4,6 +4,10 @@ const LayoutSheet = StyleSheet.create({
   flexContainer: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  pushToBottom: {
+    flex: 1,
   },
 });
 

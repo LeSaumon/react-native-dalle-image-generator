@@ -2,7 +2,6 @@ import {Dispatch, SetStateAction} from 'react';
 import React, {View, TextInput} from 'react-native';
 
 import ComponentSheet from '../../styles/Components';
-import LayoutSheet from '../../styles/Layout';
 
 type Props = {
   value: string;
@@ -14,7 +13,7 @@ const TextPrompt = (props: Props) => {
     <View>
       <TextInput
         style={ComponentSheet.textInput}
-        placeholder="Write in plain english for the AI to understand what you want"
+        placeholder="What you want to generate"
         {...props}
       />
     </View>
